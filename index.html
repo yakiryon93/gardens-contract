@@ -157,7 +157,6 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px;box-sh
 <div id="scrim" class="scrim hidden"></div>
 <aside id="sheet" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></aside>
 
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 /* ===== הגדרות ===== */
 const CONFIG = {
@@ -459,33 +458,49 @@ async function afterToken(){
     if (err.status===403 || err.status===404){
       showGate(`לחשבון ${esc(userEmail||"הזה")} אין גישה למאגר. כדי לקבל גישה, בקש ממנהל המאגר לשתף איתך את הגיליון בצפייה, ואז נסה שוב.`, true);
     } else if (err.status===401){
+      try{ sessionStorage.removeItem("oauth-token"); }catch(_){}
       showGate("פג תוקף הכניסה. היכנס שוב.", false);
     } else {
       showGate("לא הצלחתי לטעון את הנתונים. בדוק את החיבור לאינטרנט ונסה שוב.", false);
     }
   }
 }
+const REDIRECT = location.origin + location.pathname;
 function requestToken(prompt){
-  if (!tokenClient){
-    tokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: CONFIG.CLIENT_ID, scope: CONFIG.SCOPES,
-      callback: (resp)=>{
-        if (resp.error){ showGate("הכניסה לא הושלמה. נסה שוב.", false); return; }
-        token = resp.access_token; afterToken();
-      },
-      error_callback: (e)=>{ if(!DATA.items.length) showGate(e && e.type==="popup_failed_to_open" ? "הדפדפן חסם את חלון הכניסה. אפשר חלונות קופצים לאתר הזה ונסה שוב." : "", !!userEmail); }
-    });
-  }
-  tokenClient.requestAccessToken({prompt, hint: userEmail||undefined});
+  const state = Math.random().toString(36).slice(2);
+  try{ sessionStorage.setItem("oauth-state", state); }catch(_){}
+  const p = new URLSearchParams({client_id:CONFIG.CLIENT_ID, redirect_uri:REDIRECT, response_type:"token",
+    scope:CONFIG.SCOPES, include_granted_scopes:"true", state});
+  if (prompt) p.set("prompt", prompt);
+  if (userEmail && prompt!=="select_account") p.set("login_hint", userEmail);
+  location.href = "https://accounts.google.com/o/oauth2/v2/auth?" + p.toString();
+}
+function readTokenFromUrl(){
+  if (!location.hash.includes("access_token") && !location.hash.includes("error")) return null;
+  const h = new URLSearchParams(location.hash.slice(1));
+  history.replaceState(null, "", REDIRECT);
+  let expected=null; try{ expected=sessionStorage.getItem("oauth-state"); sessionStorage.removeItem("oauth-state"); }catch(_){}
+  if (h.get("error")) return {error:h.get("error")};
+  if (!expected || h.get("state")!==expected) return {error:"state"};
+  const t = {token:h.get("access_token"), exp: Date.now() + (Number(h.get("expires_in")||3600)-60)*1000};
+  try{ sessionStorage.setItem("oauth-token", JSON.stringify(t)); }catch(_){}
+  return t;
 }
 $("#signin").onclick = ()=> requestToken("");
 $("#switchAcc").onclick = ()=>{ userEmail=""; try{localStorage.removeItem("contract-email");}catch(_){}; $("#signin").textContent="כניסה עם Google"; requestToken("select_account"); };
-$("#refresh").onclick = ()=> requestToken("");
+$("#refresh").onclick = ()=>{
+  let t=null; try{ t=JSON.parse(sessionStorage.getItem("oauth-token")||"null"); }catch(_){}
+  if (t && t.exp>Date.now()){ token=t.token; afterToken(); } else requestToken("");
+};
 
 function boot(){
   if (window.DEMO_DATA){ useData(window.DEMO_DATA); $("#who").textContent="מצב תצוגה מקדימה"; $("#refresh").classList.add("hidden"); $("#editSheet").classList.add("hidden"); return; }
   try{ userEmail = localStorage.getItem("contract-email")||""; }catch(_){}
   if (userEmail){ $("#signin").textContent = "המשך כ־"+userEmail; $("#gateSwitch").classList.remove("hidden"); }
+  const fromUrl = readTokenFromUrl();
+  if (fromUrl && fromUrl.error){ showGate(fromUrl.error==="access_denied" ? "הכניסה בוטלה. כדי להיכנס צריך לאשר את ההרשאות." : "הכניסה לא הושלמה. נסה שוב.", !!userEmail); return; }
+  let t = fromUrl; if (!t){ try{ t=JSON.parse(sessionStorage.getItem("oauth-token")||"null"); }catch(_){} }
+  if (t && t.token && t.exp>Date.now()){ token=t.token; $("#gate").classList.add("hidden"); afterToken(); return; }
   showGate("", !!userEmail);
 }
 boot();
