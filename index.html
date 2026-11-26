@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>חוזה קבלני הגינון</title>
+<meta name="theme-color" content="#1E4D3A">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pine:#1E4D3A; --pine-deep:#143528; --leaf:#C8E28C; --moss:#5E7F4A;
+  --paper:#F4F7F3; --card:#FFFFFF; --ink:#18241D; --muted:#5C6B62; --line:#DCE4DB;
+  --mark:#E3F2A6; --danger:#9B2C2C;
+  --serif:"Frank Ruhl Libre", "David", serif;
+  --sans:"Assistant", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
+a{color:var(--pine)}
+:focus-visible{outline:3px solid var(--moss);outline-offset:2px;border-radius:6px}
+.hidden{display:none!important}
+
+/* top band */
+.band{background:var(--pine);color:#F2F7EE;padding:28px 24px 34px}
+.band-inner{max-width:980px;margin:0 auto}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer;background:none;border:0;padding:0;color:inherit;text-align:right}
+.brand img{width:36px;height:36px;border-radius:9px}
+.brand h1{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:0;letter-spacing:.2px}
+.brand small{display:block;font-size:.82rem;opacity:.75;font-weight:500}
+.tools{display:flex;gap:8px;align-items:center}
+.ghost{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#F2F7EE;border-radius:999px;padding:6px 14px;font-size:.88rem;cursor:pointer;text-decoration:none;white-space:nowrap}
+.ghost:hover{background:rgba(255,255,255,.18)}
+.who{font-size:.82rem;opacity:.75;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.searchbox{position:relative}
+.searchbox input{width:100%;border:0;border-radius:18px;background:#FDFEFC;color:var(--ink);
+  font-family:var(--serif);font-size:1.7rem;font-weight:500;padding:20px 64px 20px 22px;
+  box-shadow:0 2px 0 var(--pine-deep) inset, 0 10px 30px rgba(10,30,20,.25)}
+.searchbox input::placeholder{color:#8A988F;font-weight:500}
+.searchbox svg{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:26px;height:26px;color:var(--moss);pointer-events:none}
+.searchbox .clear{position:absolute;left:14px;top:50%;transform:translateY(-50%);border:0;background:var(--paper);border-radius:999px;width:34px;height:34px;cursor:pointer;color:var(--muted);font-size:1.2rem;line-height:1}
+.hint{margin-top:12px;font-size:.9rem;opacity:.8}
+
+main{max-width:980px;margin:0 auto;padding:28px 24px 80px}
+.crumbs{display:flex;align-items:center;gap:8px;margin:0 0 18px;font-size:.95rem;color:var(--muted)}
+.crumbs button{background:none;border:0;padding:0;color:var(--pine);cursor:pointer;font-weight:600}
+h2.page{font-family:var(--serif);font-size:2rem;font-weight:700;margin:0 0 4px;line-height:1.2}
+.sub{color:var(--muted);margin:0 0 22px}
+
+/* plant-tag category cards */
+.tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px 16px}
+@media (max-width:640px){.tags{grid-template-columns:1fr 1fr;gap:12px 10px}.tag{min-height:128px;padding:26px 12px 12px}.tag .name{font-size:1.05rem}.tag .desc{font-size:.8rem}}
+.tag{position:relative;background:var(--card);border:1px solid var(--line);text-align:right;cursor:pointer;
+  padding:30px 18px 18px;min-height:150px;display:flex;flex-direction:column;gap:6px;
+  clip-path:polygon(0 18px,18px 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);border-radius:0 0 12px 12px}
+.tag::before{content:"";position:absolute;top:12px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line)}
+.tag:hover{border-color:var(--moss);background:#FBFDF8}
+.tag .name{font-family:var(--serif);font-size:1.25rem;font-weight:700;line-height:1.25}
+.tag .desc{color:var(--muted);font-size:.9rem;flex:1}
+.tag .count{align-self:flex-start;font-weight:700;color:var(--pine);font-size:.9rem}
+
+/* lists */
+.list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.row{display:block;width:100%;text-align:right;background:none;border:0;border-bottom:1px solid var(--line);padding:16px 4px;cursor:pointer}
+.row:hover{background:#EEF3EC}
+.row .t{font-weight:700;font-size:1.05rem;display:block}
+.row .meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.84rem;color:var(--muted);margin-top:3px}
+.row .snip{display:block;color:#34443A;font-size:.95rem;margin-top:6px}
+.chip{display:inline-block;background:#E4EEDF;color:var(--pine);border-radius:999px;padding:1px 10px;font-weight:600;font-size:.8rem}
+.group-h{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--pine);margin:28px 0 6px}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px;box-shadow:0 1px 0 #B9CF6B}
+.empty{padding:40px 0;color:var(--muted)}
+.empty strong{display:block;color:var(--ink);font-size:1.1rem;margin-bottom:4px}
+
+/* item sheet */
+.scrim{position:fixed;inset:0;background:rgba(15,30,22,.38);z-index:20}
+.sheet{position:fixed;top:0;bottom:0;left:0;width:min(680px,100%);background:var(--card);z-index:21;overflow:auto;
+  box-shadow:12px 0 40px rgba(0,0,0,.18);padding:26px 32px 60px;animation:slide .22s ease-out}
+@keyframes slide{from{transform:translateX(-24px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+.sheet .close{float:left;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;cursor:pointer}
+.sheet h3{font-family:var(--serif);font-size:1.65rem;line-height:1.25;margin:44px 0 10px}
+.sheet .meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;font-size:.9rem;color:var(--muted)}
+.body p{margin:0 0 12px;max-width:68ch}
+.body .n{color:var(--moss);font-weight:700;margin-left:6px;font-variant-numeric:tabular-nums}
+.body p.kv{display:flex;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.body p.kv b{min-width:9em;color:var(--muted);font-weight:600}
+.source{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+
+/* gate */
+.gate{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--pine)}
+.gate-card{background:var(--card);max-width:430px;width:100%;border-radius:20px;padding:36px 30px;text-align:center}
+.gate-card img{width:64px;height:64px;border-radius:16px}
+.gate-card h1{font-family:var(--serif);font-size:1.7rem;margin:14px 0 6px}
+.gate-card p{color:var(--muted);margin:0 0 22px}
+.primary{background:var(--pine);color:#fff;border:0;border-radius:12px;padding:13px 22px;font-weight:700;font-size:1rem;cursor:pointer;width:100%}
+.primary:hover{background:var(--pine-deep)}
+.gate-card .err{color:var(--danger);background:#FBEFEF;border-radius:10px;padding:10px 12px;font-size:.92rem;margin-bottom:16px;text-align:right}
+.small{font-size:.85rem;color:var(--muted);margin-top:14px}
+.linkbtn{background:none;border:0;color:var(--pine);text-decoration:underline;cursor:pointer;padding:0;font-size:.9rem}
+
+@media (max-width:640px){
+  .band{padding:18px 16px 22px}
+  .searchbox input{font-size:1.3rem;padding:16px 54px 16px 16px}
+  main{padding:20px 16px 60px}
+  .who{display:none}
+  .sheet{padding:20px 20px 50px}
+  h2.page{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+
+<div id="gate" class="gate hidden">
+  <div class="gate-card">
+    <img src="icon-192.png" alt="">
+    <h1>חוזה קבלני הגינון</h1>
+    <p>אגף גנים ונוף. הכניסה למורשים בלבד, עם חשבון Google.</p>
+    <div id="gateErr" class="err hidden"></div>
+    <button id="signin" class="primary">כניסה עם Google</button>
+    <div id="gateSwitch" class="small hidden"><button class="linkbtn" id="switchAcc">כניסה עם חשבון אחר</button></div>
+  </div>
+</div>
+
+<div id="app" class="hidden">
+  <header class="band">
+    <div class="band-inner">
+      <div class="topline">
+        <button class="brand" id="home" aria-label="למסך הראשי">
+          <img src="icon-192.png" alt="">
+          <span><h1>חוזה קבלני הגינון</h1><small>מפרט טכני, אגף גנים ונוף</small></span>
+        </button>
+        <div class="tools">
+          <span class="who" id="who"></span>
+          <a class="ghost" id="editSheet" target="_blank" rel="noopener">עריכה בגיליון</a>
+          <button class="ghost" id="refresh">רענון</button>
+        </div>
+      </div>
+      <div class="searchbox">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>
+        <input id="q" type="search" autocomplete="off" placeholder="מה לחפש? גיזום, פיצוי, שעות עבודה…" aria-label="חיפוש במאגר">
+        <button class="clear hidden" id="clearQ" aria-label="ניקוי חיפוש">×</button>
+      </div>
+      <div class="hint" id="hint"></div>
+    </div>
+  </header>
+  <main id="view"></main>
+</div>
+
+<div id="scrim" class="scrim hidden"></div>
+<aside id="sheet" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></aside>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+/* ===== הגדרות ===== */
+const CONFIG = {
+  CLIENT_ID: "109853178915-cfo7mnegsb1sf8p0g1te42olj3ig107g.apps.googleusercontent.com",
+  SHEET_ID: "1AsiZRuPbD2g_aphLK3JDMnXBp55PnCKVcCjSYmTK-_A",
+  SCOPES: "https://www.googleapis.com/auth/spreadsheets.readonly openid email"
+};
+
+/* ===== state ===== */
+let DATA = {cats:[], items:[], syn:[]};
+let token = null, tokenClient = null, userEmail = "";
+let IDX = null;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ===== Hebrew normalisation & search ===== */
+const FINALS = {"ך":"כ","ם":"מ","ן":"נ","ף":"פ","ץ":"צ"};
+function norm(s){
+  return String(s).toLowerCase()
+    .replace(/[֑-ׇ]/g,"")
+    .replace(/[ךםןףץ]/g, c => FINALS[c])
+    .replace(/[״׳"'`]/g,"");
+}
+const WORD_RE = /[\p{L}\p{N}][\p{L}\p{N}"'׳״.%/]*/gu;
+function words(s){ return (norm(s).match(/[\p{L}\p{N}]+(?:[.\/][\p{N}]+)*/gu) || []); }
+const PREF = ["ו","ה","ב","ל","מ","ש","כ"];
+function variants(w){
+  const out = new Set([w]);
+  let cur = [w];
+  for (let i=0;i<3;i++){
+    const next=[];
+    for (const x of cur){
+      if (x.length>3 && PREF.includes(x[0]) && /^\D/.test(x)) { const y=x.slice(1); if(!out.has(y)){out.add(y); next.push(y);} }
+    }
+    cur=next;
+  }
+  return out;
+}
+function lev(a,b,max){
+  if (Math.abs(a.length-b.length)>max) return max+1;
+  let prev = Array.from({length:b.length+1},(_,i)=>i);
+  for (let i=1;i<=a.length;i++){
+    const cur=[i]; let best=i;
+    for (let j=1;j<=b.length;j++){
+      cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(a[i-1]===b[j-1]?0:1));
+      if(cur[j]<best) best=cur[j];
+    }
+    if (best>max) return max+1;
+    prev=cur;
+  }
+  return prev[b.length];
+}
+// ktiv male / haser: ignore ו and י inside a word (שעת = שעות, גזום = גיזום)
+function skeleton(w){ return w.length<3 ? w : w[0] + w.slice(1).replace(/[וי]/g,""); }
+function buildIndex(){
+  const inv = new Map();         // stem -> Map(itemIdx -> weight)
+  const catName = Object.fromEntries(DATA.cats.map(c=>[c.id,c.name]));
+  DATA.items.forEach((it,i)=>{
+    const fields = [[it.title,3],[it.section,1.2],[catName[it.cat]||"",1],[it.body,1]];
+    for (const [txt,wt] of fields){
+      for (const w of words(txt)){
+        for (const v of variants(w)){
+          let m = inv.get(v); if(!m){m=new Map(); inv.set(v,m);}
+          if ((m.get(i)||0) < wt) m.set(i,wt);
+        }
+      }
+    }
+  });
+  const syn = new Map();
+  for (const row of DATA.syn){
+    const group = [row.word, ...String(row.syns||"").split(/[,،;]/)].map(s=>norm(s).trim()).filter(Boolean);
+    for (const g of group){ const set = syn.get(g)||new Set(); group.forEach(x=>set.add(x)); syn.set(g,set); }
+  }
+  const vocab=[...inv.keys()], skel=new Map();
+  for (const v of vocab){ const k=skeleton(v); if(k.length>=2){ if(!skel.has(k)) skel.set(k,[]); skel.get(k).push(v);} }
+  IDX = {inv, vocab, syn, skel};
+}
+function expandTerm(t){
+  // returns Map(vocabToken -> score)
+  const res = new Map();
+  const add=(k,s)=>{ if((res.get(k)||0)<s) res.set(k,s); };
+  const seeds = new Map();
+  for (const v of variants(t)) seeds.set(v,1);
+  const sy = IDX.syn.get(t); if (sy) for (const s of sy) for (const w of words(s)) for (const v of variants(w)) if(!seeds.has(v)) seeds.set(v,.9);
+  for (const [s,base] of seeds){
+    if (IDX.inv.has(s)) add(s,base);
+    if (s.length>=3 && !/\d/.test(s)) for (const v of (IDX.skel.get(skeleton(s))||[])) add(v, base*.75);
+    for (const v of IDX.vocab){
+      if (v===s) continue;
+      if (s.length>=2 && v.startsWith(s)) { add(v, base*(s.length>=3?.85:.6)); continue; }
+      if (s.length>=5 && !/\d/.test(s)){
+        const mx = s.length>=7?2:1, d = lev(s,v,mx);
+        if (d===1) add(v, base*.6); else if (d===2 && mx===2) add(v, base*.4);
+      }
+    }
+  }
+  return res;
+}
+const STOP = new Set(["על","של","את","עם","או","גם","כל","לא","אם","מה","זה","זו","יש","אין","איך","כמה","מי","מתי","איפה","לפי","בין","הוא","היא","הם","אני","אנחנו","צריכ","צריכה","מותר","אסור","האם","כי","רק","עד","אל","מנ","ע\"י","עי"]);
+function search(q){
+  let terms = [...new Set(words(q))].filter(t=>t.length>=2 || /\d/.test(t));
+  const content = terms.filter(t=>!STOP.has(t));
+  if (content.length) terms = content;
+  if (!terms.length) return {hits:[], matched:new Set()};
+  const scores = new Map(), strong = new Map(), matched = new Set();
+  for (const t of terms){
+    const exp = expandTerm(t);
+    const best = new Map();
+    for (const [tok,sc] of exp){
+      matched.add(tok);
+      for (const [i,w] of IDX.inv.get(tok)){ const v=sc*w; if((best.get(i)||0)<v) best.set(i,v); }
+    }
+    if (/^\d+(\.\d+)*$/.test(t)) DATA.items.forEach((it,i)=>{ if(String(it.num)===t || String(it.num).startsWith(t+".")) best.set(i,Math.max(best.get(i)||0,4)); });
+    for (const [i,v] of best){
+      scores.set(i,(scores.get(i)||0)+Math.min(v,3));
+      if (v>=.85) strong.set(i,(strong.get(i)||0)+1);
+    }
+  }
+  let hits = [...scores.keys()].map(i=>{
+    const n=strong.get(i)||0;
+    return {i, n, score: scores.get(i) + 2.5*n};
+  }).sort((a,b)=> b.score-a.score);
+  if (hits.length){ const top=hits[0].score; hits = hits.filter(h=>h.score>=top*0.3); }
+  const partial = terms.length>1 && !hits.some(h=>h.n===terms.length);
+  return {hits, partial, matched, terms};
+}
+function highlight(text, matched){
+  if (!matched || !matched.size) return esc(text);
+  let out="", last=0;
+  for (const m of String(text).matchAll(WORD_RE)){
+    const w = m[0]; const ws = words(w);
+    const hit = ws.some(x=>[...variants(x)].some(v=>matched.has(v)));
+    out += esc(text.slice(last,m.index)) + (hit? "<mark>"+esc(w)+"</mark>" : esc(w));
+    last = m.index + w.length;
+  }
+  return out + esc(text.slice(last));
+}
+function snippet(body, matched){
+  const flat = String(body).replace(/\n/g," ");
+  let pos = -1;
+  for (const m of flat.matchAll(WORD_RE)){
+    if (words(m[0]).some(x=>[...variants(x)].some(v=>matched.has(v)))){ pos=m.index; break; }
+  }
+  if (pos<0) pos=0;
+  const start = Math.max(0,pos-70), end = Math.min(flat.length,start+220);
+  let s = flat.slice(start,end);
+  if (start>0) s = "…"+s.replace(/^\S*\s/,""); if (end<flat.length) s = s.replace(/\s\S*$/,"")+"…";
+  return highlight(s, matched);
+}
+
+/* ===== rendering ===== */
+const catById = id => DATA.cats.find(c=>c.id===id) || {id, name:id, desc:""};
+function itemsOf(cat){ return DATA.items.filter(it=>it.cat===cat); }
+
+function renderHome(){
+  $("#view").innerHTML = `
+    <h2 class="page">כל הנושאים</h2>
+    <p class="sub">${DATA.items.length} פריטים מתוך המפרט הטכני. בחר נושא או חפש למעלה.</p>
+    <div class="tags">${DATA.cats.map(c=>`
+      <button class="tag" data-cat="${esc(c.id)}">
+        <span class="name">${esc(c.name)}</span>
+        <span class="desc">${esc(c.desc||"")}</span>
+        <span class="count">${itemsOf(c.id).length} פריטים</span>
+      </button>`).join("")}
+    </div>`;
+}
+function rowHTML(it, matched, showCat){
+  const meta = [];
+  if (showCat) meta.push(`<span class="chip">${esc(catById(it.cat).name)}</span>`);
+  if (it.section) meta.push(`<span>${esc(it.section)}</span>`);
+  if (it.page) meta.push(`<span>עמוד ${esc(it.page)}</span>`);
+  return `<button class="row" data-item="${esc(it.id)}">
+    <span class="t">${matched? highlight(it.title,matched) : esc(it.title)}</span>
+    <span class="meta">${meta.join("")}</span>
+    ${matched? `<span class="snip">${snippet(it.body,matched)}</span>`:""}
+  </button>`;
+}
+function renderCat(id){
+  const c = catById(id); const list = itemsOf(id);
+  const groups = []; let cur=null;
+  for (const it of list){ if(!cur || cur.s!==it.section){cur={s:it.section,items:[]}; groups.push(cur);} cur.items.push(it); }
+  $("#view").innerHTML = `
+    <nav class="crumbs"><button data-go="home">כל הנושאים</button><span>/</span><span>${esc(c.name)}</span></nav>
+    <h2 class="page">${esc(c.name)}</h2>
+    <p class="sub">${list.length} פריטים${c.desc? ". "+esc(c.desc):""}</p>
+    ${groups.map(g=>`${groups.length>1 && g.s? `<div class="group-h">${esc(g.s)}</div>`:""}<div class="list">${g.items.map(it=>rowHTML(it)).join("")}</div>`).join("")}
+    ${list.length? "" : `<div class="empty"><strong>אין עדיין פריטים בנושא הזה.</strong>אפשר להוסיף שורות בגיליון, עם "${esc(c.name)}" בעמודת הקטגוריה.</div>`}`;
+}
+let lastMatched = null;
+function renderSearch(q){
+  const r = search(q); lastMatched = r.matched;
+  const byCat = new Map();
+  for (const h of r.hits.slice(0,120)){ const it=DATA.items[h.i]; if(!byCat.has(it.cat)) byCat.set(it.cat,[]); byCat.get(it.cat).push(it); }
+  $("#hint").textContent = r.hits.length ? `${r.hits.length} תוצאות${r.partial? ", אין פריט שמכיל את כל המילים, מוצגות ההתאמות הקרובות":""}` : "";
+  if (!r.hits.length){
+    $("#view").innerHTML = `<div class="empty"><strong>לא נמצאו תוצאות ל"${esc(q)}".</strong>נסה מילה אחרת או קצרה יותר, או מספר סעיף כמו 5.1.4.</div>`;
+    return;
+  }
+  $("#view").innerHTML = [...byCat].map(([cat,its])=>`
+    <div class="group-h">${esc(catById(cat).name)} <span class="chip">${its.length}</span></div>
+    <div class="list">${its.map(it=>rowHTML(it,r.matched,false)).join("")}</div>`).join("");
+}
+function bodyHTML(body, matched){
+  return String(body).split("\n").filter(Boolean).map(p=>{
+    const kv = p.match(/^([^:]{2,40}):\s(.+)$/);
+    if (kv && !/^\d/.test(p) && p.length<260) return `<p class="kv"><b>${highlight(kv[1],matched)}</b><span>${highlight(kv[2],matched)}</span></p>`;
+    const n = p.match(/^(\d+(?:\.\d+)+|\d+\.)\s+(.*)$/s);
+    if (n) return `<p><span class="n">${esc(n[1])}</span>${highlight(n[2],matched)}</p>`;
+    return `<p>${highlight(p,matched)}</p>`;
+  }).join("");
+}
+function openItem(id){
+  const it = DATA.items.find(x=>String(x.id)===String(id)); if(!it) return;
+  const c = catById(it.cat);
+  $("#sheet").innerHTML = `
+    <button class="close" id="closeSheet">סגירה</button>
+    <h3 id="sheetTitle">${highlight(it.title,lastMatched)}</h3>
+    <div class="meta"><span class="chip">${esc(c.name)}</span>${it.section?`<span>${esc(it.section)}</span>`:""}</div>
+    <div class="body">${bodyHTML(it.body,lastMatched)}</div>
+    <div class="source">מקור: מפרט שירותי גינון וטיפוח גני נוי ושטחים מגוננים${it.page? `, עמוד ${esc(it.page)}`:""}${it.num? `, סעיף ${esc(it.num)}`:""}.</div>`;
+  $("#sheet").classList.remove("hidden"); $("#scrim").classList.remove("hidden");
+  $("#closeSheet").focus();
+}
+function closeItem(){ $("#sheet").classList.add("hidden"); $("#scrim").classList.add("hidden"); }
+
+/* ===== routing ===== */
+let view = {name:"home"};
+function go(v){ view=v; render(); }
+function render(){
+  const q = $("#q").value.trim();
+  $("#clearQ").classList.toggle("hidden", !q);
+  if (q) return renderSearch(q);
+  $("#hint").textContent = "";
+  lastMatched = null;
+  if (view.name==="cat") renderCat(view.id); else renderHome();
+}
+document.addEventListener("click", e=>{
+  const t = e.target.closest("[data-cat],[data-item],[data-go]");
+  if (!t) return;
+  if (t.dataset.cat){ $("#q").value=""; go({name:"cat",id:t.dataset.cat}); scrollTo(0,0); }
+  else if (t.dataset.item) openItem(t.dataset.item);
+  else if (t.dataset.go==="home"){ go({name:"home"}); }
+});
+$("#home").onclick = ()=>{ $("#q").value=""; go({name:"home"}); };
+let deb; $("#q").addEventListener("input", ()=>{ clearTimeout(deb); deb=setTimeout(render,120); });
+$("#clearQ").onclick = ()=>{ $("#q").value=""; render(); $("#q").focus(); };
+$("#scrim").onclick = closeItem;
+document.addEventListener("keydown", e=>{
+  if (e.key==="Escape") closeItem();
+  if (e.key==="/" && document.activeElement!==$("#q")){ e.preventDefault(); $("#q").focus(); }
+});
+document.addEventListener("click", e=>{ if (e.target.id==="closeSheet") closeItem(); });
+
+/* ===== data loading ===== */
+function rowsToData(itemRows, catRows, synRows){
+  const [ih, ...ir] = itemRows; const [ch, ...cr] = catRows||[[]];
+  const col = (h,names)=>{ for(const n of names){ const k=h.indexOf(n); if(k>=0) return k;} return -1; };
+  const I = {id:col(ih,["מזהה"]),cat:col(ih,["קטגוריה"]),num:col(ih,["סעיף"]),title:col(ih,["כותרת"]),body:col(ih,["תוכן"]),page:col(ih,["עמוד"]),section:col(ih,["פרק"])};
+  const C = {name:col(ch,["שם"]),desc:col(ch,["תיאור"])};
+  const items = ir.filter(r=>r[I.title]||r[I.body]).map((r,k)=>({id:r[I.id]||("r"+(k+2)),cat:(r[I.cat]||"").trim(),num:r[I.num]||"",title:r[I.title]||"",body:r[I.body]||"",page:r[I.page]||"",section:r[I.section]||""}));
+  const cats = cr.filter(r=>r[C.name]).map(r=>({id:r[C.name].trim(),name:r[C.name].trim(),desc:r[C.desc]||""}));
+  // category ids used in items but missing from the categories tab
+  for (const it of items) if (it.cat && !cats.find(c=>c.id===it.cat)) cats.push({id:it.cat,name:it.cat,desc:""});
+  const syn = (synRows||[]).slice(1).filter(r=>r[0]).map(r=>({word:r[0],syns:r[1]||""}));
+  return {cats, items, syn};
+}
+async function api(url){
+  const r = await fetch(url,{headers:{Authorization:"Bearer "+token}});
+  if (!r.ok){ const e=new Error("HTTP "+r.status); e.status=r.status; throw e; }
+  return r.json();
+}
+async function loadFromSheet(){
+  const ranges = ["פריטים!A:G","קטגוריות!A:B","מילים נרדפות!A:B"].map(r=>"ranges="+encodeURIComponent(r)).join("&");
+  const j = await api(`https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values:batchGet?${ranges}&valueRenderOption=FORMATTED_VALUE`);
+  const v = j.valueRanges.map(x=>x.values||[]);
+  return rowsToData(v[0],v[1],v[2]);
+}
+function useData(d, fromCache){
+  DATA = d; buildIndex();
+  $("#gate").classList.add("hidden"); $("#app").classList.remove("hidden");
+  $("#editSheet").href = `https://docs.google.com/spreadsheets/d/${CONFIG.SHEET_ID}/edit`;
+  render();
+}
+function showGate(msg, offerSwitch){
+  $("#app").classList.add("hidden"); $("#gate").classList.remove("hidden");
+  const e=$("#gateErr"); e.classList.toggle("hidden",!msg); e.innerHTML = msg||"";
+  $("#gateSwitch").classList.toggle("hidden",!offerSwitch);
+}
+async function afterToken(){
+  try{
+    try{ const u = await api("https://www.googleapis.com/oauth2/v3/userinfo"); userEmail=u.email||""; $("#who").textContent=userEmail; }catch(_){}
+    const d = await loadFromSheet();
+    try{ if(userEmail) localStorage.setItem("contract-email", userEmail); }catch(_){}
+    useData(d);
+  }catch(err){
+    if (DATA.items.length && err.status!==403 && err.status!==404){ $("#hint").textContent="הרענון לא הצליח. נסה שוב."; return; }
+    DATA={cats:[],items:[],syn:[]};
+    if (err.status===403 || err.status===404){
+      showGate(`לחשבון ${esc(userEmail||"הזה")} אין גישה למאגר. כדי לקבל גישה, בקש ממנהל המאגר לשתף איתך את הגיליון בצפייה, ואז נסה שוב.`, true);
+    } else if (err.status===401){
+      showGate("פג תוקף הכניסה. היכנס שוב.", false);
+    } else {
+      showGate("לא הצלחתי לטעון את הנתונים. בדוק את החיבור לאינטרנט ונסה שוב.", false);
+    }
+  }
+}
+function requestToken(prompt){
+  if (!tokenClient){
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CONFIG.CLIENT_ID, scope: CONFIG.SCOPES,
+      callback: (resp)=>{
+        if (resp.error){ showGate("הכניסה לא הושלמה. נסה שוב.", false); return; }
+        token = resp.access_token; afterToken();
+      },
+      error_callback: (e)=>{ if(!DATA.items.length) showGate(e && e.type==="popup_failed_to_open" ? "הדפדפן חסם את חלון הכניסה. אפשר חלונות קופצים לאתר הזה ונסה שוב." : "", !!userEmail); }
+    });
+  }
+  tokenClient.requestAccessToken({prompt, hint: userEmail||undefined});
+}
+$("#signin").onclick = ()=> requestToken("");
+$("#switchAcc").onclick = ()=>{ userEmail=""; try{localStorage.removeItem("contract-email");}catch(_){}; $("#signin").textContent="כניסה עם Google"; requestToken("select_account"); };
+$("#refresh").onclick = ()=> requestToken("");
+
+function boot(){
+  if (window.DEMO_DATA){ useData(window.DEMO_DATA); $("#who").textContent="מצב תצוגה מקדימה"; $("#refresh").classList.add("hidden"); $("#editSheet").classList.add("hidden"); return; }
+  try{ userEmail = localStorage.getItem("contract-email")||""; }catch(_){}
+  if (userEmail){ $("#signin").textContent = "המשך כ־"+userEmail; $("#gateSwitch").classList.remove("hidden"); }
+  showGate("", !!userEmail);
+}
+boot();
+
+if ("serviceWorker" in navigator && location.protocol==="https:") navigator.serviceWorker.register("sw.js");
+</script>
+</body>
+</html>
