@@ -4,132 +4,142 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>חוזה קבלני הגינון</title>
-<meta name="theme-color" content="#1E4D3A">
+<meta name="theme-color" content="#F5F5F7">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pine:#1E4D3A; --pine-deep:#143528; --leaf:#C8E28C; --moss:#5E7F4A;
-  --paper:#F4F7F3; --card:#FFFFFF; --ink:#18241D; --muted:#5C6B62; --line:#DCE4DB;
-  --mark:#E3F2A6; --danger:#9B2C2C;
-  --serif:"Frank Ruhl Libre", "David", serif;
-  --sans:"Assistant", "Segoe UI", system-ui, sans-serif;
+  --bg:#F5F5F7; --card:#FFFFFF; --ink:#1D1D1F; --muted:#6E6E73; --line:#E5E5EA;
+  --green:#3DAA6B; --green-deep:#2E8C56; --green-tint:#EAF6EE; --green-soft:#D6EFDF;
+  --navy:#1B3A6B; --mark:#D3F0DC; --danger:#C0392B;
+  --font:"Heebo", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --r:20px; --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}
-a{color:var(--pine)}
-:focus-visible{outline:3px solid var(--moss);outline-offset:2px;border-radius:6px}
+a{color:var(--green-deep)}
+:focus-visible{outline:3px solid var(--green-soft);outline-offset:2px;border-radius:10px}
 .hidden{display:none!important}
 
-/* top band */
-.band{background:var(--pine);color:#F2F7EE;padding:28px 24px 34px}
-.band-inner{max-width:980px;margin:0 auto}
-.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
-.brand{display:flex;align-items:center;gap:12px;cursor:pointer;background:none;border:0;padding:0;color:inherit;text-align:right}
-.brand img{width:36px;height:36px;border-radius:9px}
-.brand h1{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:0;letter-spacing:.2px}
-.brand small{display:block;font-size:.82rem;opacity:.75;font-weight:500}
+/* top bar, frosted like macOS */
+.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+.topbar-inner{max-width:1040px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:right}
+.brand img{height:42px;width:auto}
+.brand .t1{display:block;font-weight:700;font-size:1rem;color:var(--navy);line-height:1.2}
+.brand .t2{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
 .tools{display:flex;gap:8px;align-items:center}
-.ghost{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#F2F7EE;border-radius:999px;padding:6px 14px;font-size:.88rem;cursor:pointer;text-decoration:none;white-space:nowrap}
-.ghost:hover{background:rgba(255,255,255,.18)}
-.who{font-size:.82rem;opacity:.75;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{background:var(--bg);border:0;color:var(--ink);border-radius:999px;padding:7px 15px;font-size:.86rem;font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
+.pill:hover{background:#EBEBF0}
+.who{font-size:.8rem;color:var(--muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.searchbox{position:relative}
-.searchbox input{width:100%;border:0;border-radius:18px;background:#FDFEFC;color:var(--ink);
-  font-family:var(--serif);font-size:1.7rem;font-weight:500;padding:20px 64px 20px 22px;
-  box-shadow:0 2px 0 var(--pine-deep) inset, 0 10px 30px rgba(10,30,20,.25)}
-.searchbox input::placeholder{color:#8A988F;font-weight:500}
-.searchbox svg{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:26px;height:26px;color:var(--moss);pointer-events:none}
-.searchbox .clear{position:absolute;left:14px;top:50%;transform:translateY(-50%);border:0;background:var(--paper);border-radius:999px;width:34px;height:34px;cursor:pointer;color:var(--muted);font-size:1.2rem;line-height:1}
-.hint{margin-top:12px;font-size:.9rem;opacity:.8}
+/* hero */
+.hero{max-width:1040px;margin:0 auto;padding:48px 24px 8px;text-align:center}
+.hero h1{font-size:2.6rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px;line-height:1.15}
+.hero p{color:var(--muted);font-size:1.1rem;margin:0 0 26px}
+.searchbox{position:relative;max-width:760px;margin:0 auto}
+.searchbox input{width:100%;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);
+  font-size:1.25rem;font-weight:400;padding:18px 58px 18px 56px;box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s}
+.searchbox input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-tint), var(--shadow)}
+.searchbox input::placeholder{color:#A1A1A6}
+.searchbox input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
+.searchbox svg{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:22px;height:22px;color:var(--green);pointer-events:none}
+.searchbox .clear{position:absolute;left:12px;top:50%;transform:translateY(-50%);border:0;background:var(--bg);border-radius:999px;width:34px;height:34px;cursor:pointer;color:var(--muted);font-size:1.2rem;line-height:1}
+.hint{margin-top:12px;font-size:.88rem;color:var(--muted);min-height:1.4em}
 
-main{max-width:980px;margin:0 auto;padding:28px 24px 80px}
-.crumbs{display:flex;align-items:center;gap:8px;margin:0 0 18px;font-size:.95rem;color:var(--muted)}
-.crumbs button{background:none;border:0;padding:0;color:var(--pine);cursor:pointer;font-weight:600}
-h2.page{font-family:var(--serif);font-size:2rem;font-weight:700;margin:0 0 4px;line-height:1.2}
-.sub{color:var(--muted);margin:0 0 22px}
+main{max-width:1040px;margin:0 auto;padding:20px 24px 80px}
+.crumbs{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:.92rem;color:var(--muted)}
+.crumbs button{background:none;border:0;padding:0;color:var(--green-deep);cursor:pointer;font-weight:600}
+h2.page{font-size:2rem;font-weight:800;letter-spacing:-.015em;margin:0 0 2px;line-height:1.2}
+.sub{color:var(--muted);margin:0 0 24px}
 
-/* plant-tag category cards */
-.tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px 16px}
-@media (max-width:640px){.tags{grid-template-columns:1fr 1fr;gap:12px 10px}.tag{min-height:128px;padding:26px 12px 12px}.tag .name{font-size:1.05rem}.tag .desc{font-size:.8rem}}
-.tag{position:relative;background:var(--card);border:1px solid var(--line);text-align:right;cursor:pointer;
-  padding:30px 18px 18px;min-height:150px;display:flex;flex-direction:column;gap:6px;
-  clip-path:polygon(0 18px,18px 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);border-radius:0 0 12px 12px}
-.tag::before{content:"";position:absolute;top:12px;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line)}
-.tag:hover{border-color:var(--moss);background:#FBFDF8}
-.tag .name{font-family:var(--serif);font-size:1.25rem;font-weight:700;line-height:1.25}
-.tag .desc{color:var(--muted);font-size:.9rem;flex:1}
-.tag .count{align-self:flex-start;font-weight:700;color:var(--pine);font-size:.9rem}
+/* category cards */
+.tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.tag{background:var(--card);border:0;border-radius:var(--r);box-shadow:var(--shadow);text-align:right;cursor:pointer;
+  padding:22px 20px 18px;min-height:150px;display:flex;flex-direction:column;gap:4px;transition:transform .15s ease, box-shadow .15s ease}
+.tag:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,.05),0 14px 32px rgba(0,0,0,.09)}
+.tag .dot{width:34px;height:34px;border-radius:10px;background:var(--green-tint);display:grid;place-items:center;margin-bottom:8px}
+.tag .dot i{width:12px;height:12px;border-radius:50%;background:var(--green)}
+.tag .name{font-size:1.12rem;font-weight:700;line-height:1.3}
+.tag .desc{color:var(--muted);font-size:.88rem;flex:1}
+.tag .count{color:var(--green-deep);font-weight:600;font-size:.85rem}
+@media (prefers-reduced-motion:reduce){.tag{transition:none}.tag:hover{transform:none}}
 
 /* lists */
-.list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
-.row{display:block;width:100%;text-align:right;background:none;border:0;border-bottom:1px solid var(--line);padding:16px 4px;cursor:pointer}
-.row:hover{background:#EEF3EC}
-.row .t{font-weight:700;font-size:1.05rem;display:block}
-.row .meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.84rem;color:var(--muted);margin-top:3px}
-.row .snip{display:block;color:#34443A;font-size:.95rem;margin-top:6px}
-.chip{display:inline-block;background:#E4EEDF;color:var(--pine);border-radius:999px;padding:1px 10px;font-weight:600;font-size:.8rem}
-.group-h{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--pine);margin:28px 0 6px}
-mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px;box-shadow:0 1px 0 #B9CF6B}
-.empty{padding:40px 0;color:var(--muted)}
+.list{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+.row{display:block;width:100%;text-align:right;background:none;border:0;border-bottom:1px solid var(--line);padding:16px 20px;cursor:pointer}
+.row:last-child{border-bottom:0}
+.row:hover{background:#FAFAFC}
+.row .t{font-weight:700;font-size:1.02rem;display:block}
+.row .meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;color:var(--muted);margin-top:2px}
+.row .snip{display:block;color:#3A3A3C;font-size:.96rem;margin-top:6px}
+.chip{display:inline-block;background:var(--green-tint);color:var(--green-deep);border-radius:999px;padding:1px 10px;font-weight:600;font-size:.78rem}
+.group-h{font-size:1.05rem;font-weight:700;margin:30px 4px 10px;display:flex;align-items:center;gap:8px}
+mark{background:var(--mark);color:inherit;border-radius:4px;padding:0 2px}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
 .empty strong{display:block;color:var(--ink);font-size:1.1rem;margin-bottom:4px}
 
 /* item sheet */
-.scrim{position:fixed;inset:0;background:rgba(15,30,22,.38);z-index:20}
-.sheet{position:fixed;top:0;bottom:0;left:0;width:min(680px,100%);background:var(--card);z-index:21;overflow:auto;
-  box-shadow:12px 0 40px rgba(0,0,0,.18);padding:26px 32px 60px;animation:slide .22s ease-out}
-@keyframes slide{from{transform:translateX(-24px);opacity:.4}to{transform:none;opacity:1}}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.25);backdrop-filter:blur(2px);z-index:20}
+.sheet{position:fixed;top:12px;bottom:12px;left:12px;width:min(700px,calc(100% - 24px));background:var(--card);z-index:21;overflow:auto;
+  border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.2);padding:26px 34px 60px;animation:slide .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes slide{from{transform:translateX(-20px);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){.sheet{animation:none}}
-.sheet .close{float:left;border:1px solid var(--line);background:var(--paper);border-radius:999px;padding:6px 14px;cursor:pointer}
-.sheet h3{font-family:var(--serif);font-size:1.65rem;line-height:1.25;margin:44px 0 10px}
-.sheet .meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;font-size:.9rem;color:var(--muted)}
-.body p{margin:0 0 12px;max-width:68ch}
-.body .n{color:var(--moss);font-weight:700;margin-left:6px;font-variant-numeric:tabular-nums}
-.body p.kv{display:flex;gap:10px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.sheet .close{float:left;border:0;background:var(--bg);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:500}
+.sheet h3{font-size:1.75rem;font-weight:800;letter-spacing:-.01em;line-height:1.25;margin:46px 0 8px}
+.sheet .meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;font-size:.88rem;color:var(--muted);align-items:center}
+.body p{margin:0 0 12px;max-width:70ch}
+.body .n{color:var(--green-deep);font-weight:700;margin-left:6px;font-variant-numeric:tabular-nums}
+.body p.kv{display:flex;gap:10px;border-bottom:1px solid var(--line);padding-bottom:8px}
 .body p.kv b{min-width:9em;color:var(--muted);font-weight:600}
-.source{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+.source{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
 
 /* gate */
-.gate{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--pine)}
-.gate-card{background:var(--card);max-width:430px;width:100%;border-radius:20px;padding:36px 30px;text-align:center}
-.gate-card img{width:64px;height:64px;border-radius:16px}
-.gate-card h1{font-family:var(--serif);font-size:1.7rem;margin:14px 0 6px}
-.gate-card p{color:var(--muted);margin:0 0 22px}
-.primary{background:var(--pine);color:#fff;border:0;border-radius:12px;padding:13px 22px;font-weight:700;font-size:1rem;cursor:pointer;width:100%}
-.primary:hover{background:var(--pine-deep)}
-.gate-card .err{color:var(--danger);background:#FBEFEF;border-radius:10px;padding:10px 12px;font-size:.92rem;margin-bottom:16px;text-align:right}
+.gate{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg)}
+.gate-card{background:var(--card);max-width:420px;width:100%;border-radius:28px;padding:40px 32px;text-align:center;box-shadow:var(--shadow)}
+.gate-card img{height:120px;width:auto}
+.gate-card h1{font-size:1.7rem;font-weight:800;margin:18px 0 6px}
+.gate-card p{color:var(--muted);margin:0 0 24px}
+.primary{background:var(--green);color:#fff;border:0;border-radius:999px;padding:14px 22px;font-weight:600;font-size:1rem;cursor:pointer;width:100%}
+.primary:hover{background:var(--green-deep)}
+.gate-card .err{color:var(--danger);background:#FDF0EE;border-radius:12px;padding:10px 12px;font-size:.92rem;margin-bottom:16px;text-align:right}
 .small{font-size:.85rem;color:var(--muted);margin-top:14px}
-.linkbtn{background:none;border:0;color:var(--pine);text-decoration:underline;cursor:pointer;padding:0;font-size:.9rem}
-
+.linkbtn{background:none;border:0;color:var(--green-deep);cursor:pointer;padding:0;font-size:.9rem}
 
 /* plain-language layer */
-.simple{background:#EEF5E6;border-right:4px solid var(--moss);border-radius:12px;padding:16px 18px;margin:0 0 18px}
-.simple-h{font-weight:700;color:var(--pine);font-size:.9rem;margin-bottom:4px}
-.simple p{margin:0;font-size:1.12rem;line-height:1.65;max-width:68ch}
-details.full{border-top:1px solid var(--line);padding-top:12px}
-details.full summary{cursor:pointer;color:var(--pine);font-weight:600;margin-bottom:12px}
-.quick{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:6px 0 10px}
-.quick-h{font-family:var(--serif);font-weight:700;font-size:1.15rem;color:var(--pine);margin-bottom:6px}
-.quick-row{display:flex;flex-direction:column;gap:2px;width:100%;text-align:right;background:none;border:0;border-top:1px dashed var(--line);padding:10px 2px;cursor:pointer}
+.simple{background:var(--green-tint);border-radius:16px;padding:18px 20px;margin:0 0 18px}
+.simple-h{font-weight:700;color:var(--green-deep);font-size:.85rem;margin-bottom:6px}
+.simple .txt p{margin:0 0 8px;font-size:1.08rem;line-height:1.7;max-width:70ch}
+.simple .txt ul{margin:4px 0 8px;padding:0 20px 0 0}
+.simple .txt li{margin:0 0 6px;font-size:1.05rem;line-height:1.6}
+details.full{border-top:1px solid var(--line);padding-top:14px}
+details.full summary{cursor:pointer;color:var(--green-deep);font-weight:600;margin-bottom:12px}
+.quick{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:4px 0 8px}
+.quick-h{font-weight:800;font-size:1.15rem;margin-bottom:4px}
+.quick-sub{color:var(--muted);font-size:.85rem;margin-bottom:6px}
+.quick-row{display:flex;flex-direction:column;gap:3px;width:100%;text-align:right;background:none;border:0;border-top:1px solid var(--line);padding:14px 2px;cursor:pointer}
 .quick-row:first-of-type{border-top:0}
-.quick-row:hover{background:#F3F8EF}
-.quick-row b{font-size:.98rem}
-.quick-row span{font-size:1.02rem;color:#26352C}
-.quick-row small{color:var(--muted);font-size:.8rem}
-.row .snip{color:#26352C}
+.quick-row:hover b{color:var(--green-deep)}
+.quick-row b{font-size:1rem}
+.quick-row .txt{font-size:1rem;color:#3A3A3C}
+.quick-row .txt ul{margin:2px 0;padding:0 18px 0 0}
+.quick-row .txt p{margin:0 0 4px}
+.quick-row small{color:var(--green-deep);font-size:.8rem;font-weight:500}
 
 @media (max-width:640px){
-  .band{padding:18px 16px 22px}
-  .searchbox input{font-size:1.3rem;padding:16px 54px 16px 16px}
-  main{padding:20px 16px 60px}
-  .who{display:none}
-  .sheet{padding:20px 20px 50px}
-  h2.page{font-size:1.6rem}
+  .hero{padding:28px 16px 4px}
+  .hero h1{font-size:1.8rem}
+  .searchbox input{font-size:1.05rem;padding:15px 50px 15px 48px}
+  main{padding:16px 16px 60px}
+  .who,.brand .t2{display:none}
+  .tags{grid-template-columns:1fr 1fr;gap:10px}
+  .tag{min-height:130px;padding:16px 14px}
+  .sheet{top:0;bottom:0;left:0;width:100%;border-radius:0;padding:20px 20px 50px}
 }
 </style>
 </head>
@@ -137,7 +147,7 @@ details.full summary{cursor:pointer;color:var(--pine);font-weight:600;margin-bot
 
 <div id="gate" class="gate hidden">
   <div class="gate-card">
-    <img src="icon-192.png" alt="">
+    <img src="logo-full.png" alt="עיריית ירושלים, אגף גנים ונוף">
     <h1>חוזה קבלני הגינון</h1>
     <p>אגף גנים ונוף. הכניסה למורשים בלבד, עם חשבון Google.</p>
     <div id="gateErr" class="err hidden"></div>
@@ -147,27 +157,29 @@ details.full summary{cursor:pointer;color:var(--pine);font-weight:600;margin-bot
 </div>
 
 <div id="app" class="hidden">
-  <header class="band">
-    <div class="band-inner">
-      <div class="topline">
-        <button class="brand" id="home" aria-label="למסך הראשי">
-          <img src="icon-192.png" alt="">
-          <span><h1>חוזה קבלני הגינון</h1><small>מפרט טכני, אגף גנים ונוף</small></span>
-        </button>
-        <div class="tools">
-          <span class="who" id="who"></span>
-          <a class="ghost" id="editSheet" target="_blank" rel="noopener">עריכה בגיליון</a>
-          <button class="ghost" id="refresh">רענון</button>
-        </div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <button class="brand" id="home" aria-label="למסך הראשי">
+        <img src="logo-shield.png" alt="סמל עיריית ירושלים">
+        <span><span class="t1">אגף גנים ונוף</span><span class="t2">עיריית ירושלים</span></span>
+      </button>
+      <div class="tools">
+        <span class="who" id="who"></span>
+        <a class="pill" id="editSheet" target="_blank" rel="noopener">עריכה בגיליון</a>
+        <button class="pill" id="refresh">רענון</button>
       </div>
-      <div class="searchbox">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>
-        <input id="q" type="search" autocomplete="off" placeholder="מה לחפש? גיזום, פיצוי, שעות עבודה…" aria-label="חיפוש במאגר">
-        <button class="clear hidden" id="clearQ" aria-label="ניקוי חיפוש">×</button>
-      </div>
-      <div class="hint" id="hint"></div>
     </div>
   </header>
+  <section class="hero">
+    <h1>חוזה קבלני הגינון</h1>
+    <p>כל המפרט הטכני, בשפה פשוטה. שאל כל שאלה.</p>
+    <div class="searchbox">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="למשל: כל כמה זמן מכסחים דשא?" aria-label="חיפוש במאגר">
+      <button class="clear hidden" id="clearQ" aria-label="ניקוי חיפוש">×</button>
+    </div>
+    <div class="hint" id="hint"></div>
+  </section>
   <main id="view"></main>
 </div>
 
@@ -352,7 +364,7 @@ function rowHTML(it, matched, showCat){
   return `<button class="row" data-item="${esc(it.id)}">
     <span class="t">${matched? highlight(it.title,matched) : esc(it.title)}</span>
     <span class="meta">${meta.join("")}</span>
-    ${it.simple ? `<span class="snip">${matched? highlight(it.simple,matched) : esc(it.simple)}</span>` : (matched? `<span class="snip">${snippet(it.body,matched)}</span>`:"")}
+    ${it.simple ? `<span class="snip">${highlight(firstLine(it.simple),matched)}</span>` : (matched? `<span class="snip">${snippet(it.body,matched)}</span>`:"")}
   </button>`;
 }
 function renderCat(id){
@@ -376,15 +388,26 @@ function renderSearch(q){
     $("#view").innerHTML = `<div class="empty"><strong>לא נמצאו תוצאות ל"${esc(q)}".</strong>נסה מילה אחרת או קצרה יותר, או מספר סעיף כמו 5.1.4.</div>`;
     return;
   }
-  const top = r.hits.slice(0,3).map(h=>DATA.items[h.i]).filter(it=>it.simple);
+  const top = r.hits.slice(0,4).map(h=>DATA.items[h.i]).filter(it=>it.simple);
   const quick = top.length ? `<section class="quick" aria-label="בקצרה">
-      <div class="quick-h">בקצרה, מה המפרט אומר על זה</div>
-      ${top.map(it=>`<button class="quick-row" data-item="${esc(it.id)}"><b>${esc(it.title)}</b><span>${highlight(it.simple,r.matched)}</span><small>${it.num? "סעיף "+esc(it.num)+" · ":""}לנוסח המלא</small></button>`).join("")}
+      <div class="quick-h">מה המפרט אומר על זה</div><div class="quick-sub">בשפה פשוטה, מתוך הסעיפים הכי רלוונטיים</div>
+      ${top.map(it=>`<button class="quick-row" data-item="${esc(it.id)}"><b>${esc(it.title)}</b><div class="txt">${simpleHTML(it.simple,r.matched)}</div><small>${it.num? "סעיף "+esc(it.num)+" · ":""}לפרטים ולנוסח המלא</small></button>`).join("")}
     </section>` : "";
   $("#view").innerHTML = quick + [...byCat].map(([cat,its])=>`
     <div class="group-h">${esc(catById(cat).name)} <span class="chip">${its.length}</span></div>
     <div class="list">${its.map(it=>rowHTML(it,r.matched,false)).join("")}</div>`).join("");
 }
+function simpleHTML(text, matched){
+  const lines = String(text||"").split("\n").map(l=>l.trim()).filter(Boolean);
+  let out="", inList=false;
+  for (const l of lines){
+    const m = l.match(/^[•\-]\s*(.*)$/);
+    if (m){ if(!inList){out+="<ul>"; inList=true;} out+=`<li>${highlight(m[1],matched)}</li>`; }
+    else { if(inList){out+="</ul>"; inList=false;} out+=`<p>${highlight(l,matched)}</p>`; }
+  }
+  return out + (inList? "</ul>" : "");
+}
+function firstLine(text){ const t=String(text||"").split("\n")[0]; return t.length>220? t.slice(0,220).replace(/\s\S*$/,"")+"…" : t; }
 function bodyHTML(body, matched){
   return String(body).split("\n").filter(Boolean).map(p=>{
     const kv = p.match(/^([^:]{2,40}):\s(.+)$/);
@@ -401,7 +424,7 @@ function openItem(id){
     <button class="close" id="closeSheet">סגירה</button>
     <h3 id="sheetTitle">${highlight(it.title,lastMatched)}</h3>
     <div class="meta"><span class="chip">${esc(c.name)}</span>${it.section?`<span>${esc(it.section)}</span>`:""}</div>
-    ${it.simple? `<div class="simple"><div class="simple-h">בשפה פשוטה</div><p>${highlight(it.simple,lastMatched)}</p></div>
+    ${it.simple? `<div class="simple"><div class="simple-h">בשפה פשוטה</div><div class="txt">${simpleHTML(it.simple,lastMatched)}</div></div>
     <details class="full"${it.simple?"":" open"}><summary>הנוסח המלא מהמפרט</summary><div class="body">${bodyHTML(it.body,lastMatched)}</div></details>`
     : `<div class="body">${bodyHTML(it.body,lastMatched)}</div>`}
     <div class="source">מקור: מפרט שירותי גינון וטיפוח גני נוי ושטחים מגוננים${it.page? `, עמוד ${esc(it.page)}`:""}${it.num? `, סעיף ${esc(it.num)}`:""}.</div>`;
