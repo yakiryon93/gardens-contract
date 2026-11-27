@@ -106,6 +106,23 @@ mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 2px;box-sh
 .small{font-size:.85rem;color:var(--muted);margin-top:14px}
 .linkbtn{background:none;border:0;color:var(--pine);text-decoration:underline;cursor:pointer;padding:0;font-size:.9rem}
 
+
+/* plain-language layer */
+.simple{background:#EEF5E6;border-right:4px solid var(--moss);border-radius:12px;padding:16px 18px;margin:0 0 18px}
+.simple-h{font-weight:700;color:var(--pine);font-size:.9rem;margin-bottom:4px}
+.simple p{margin:0;font-size:1.12rem;line-height:1.65;max-width:68ch}
+details.full{border-top:1px solid var(--line);padding-top:12px}
+details.full summary{cursor:pointer;color:var(--pine);font-weight:600;margin-bottom:12px}
+.quick{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin:6px 0 10px}
+.quick-h{font-family:var(--serif);font-weight:700;font-size:1.15rem;color:var(--pine);margin-bottom:6px}
+.quick-row{display:flex;flex-direction:column;gap:2px;width:100%;text-align:right;background:none;border:0;border-top:1px dashed var(--line);padding:10px 2px;cursor:pointer}
+.quick-row:first-of-type{border-top:0}
+.quick-row:hover{background:#F3F8EF}
+.quick-row b{font-size:.98rem}
+.quick-row span{font-size:1.02rem;color:#26352C}
+.quick-row small{color:var(--muted);font-size:.8rem}
+.row .snip{color:#26352C}
+
 @media (max-width:640px){
   .band{padding:18px 16px 22px}
   .searchbox input{font-size:1.3rem;padding:16px 54px 16px 16px}
@@ -216,7 +233,7 @@ function buildIndex(){
   const inv = new Map();         // stem -> Map(itemIdx -> weight)
   const catName = Object.fromEntries(DATA.cats.map(c=>[c.id,c.name]));
   DATA.items.forEach((it,i)=>{
-    const fields = [[it.title,3],[it.section,1.2],[catName[it.cat]||"",1],[it.body,1]];
+    const fields = [[it.title,3],[it.simple||"",1.6],[it.section,1.2],[catName[it.cat]||"",1],[it.body,1]];
     for (const [txt,wt] of fields){
       for (const w of words(txt)){
         for (const v of variants(w)){
@@ -240,13 +257,14 @@ function expandTerm(t){
   const res = new Map();
   const add=(k,s)=>{ if((res.get(k)||0)<s) res.set(k,s); };
   const seeds = new Map();
-  for (const v of variants(t)) seeds.set(v,1);
-  const sy = IDX.syn.get(t); if (sy) for (const s of sy) for (const w of words(s)) for (const v of variants(w)) if(!seeds.has(v)) seeds.set(v,.9);
+  for (const v of variants(t)) seeds.set(v, v===t ? 1 : .95);
+  const sy = [...variants(t)].map(v=>IDX.syn.get(v)).find(Boolean); if (sy) for (const s of sy) for (const w of words(s)) for (const v of variants(w)) if(!seeds.has(v)) seeds.set(v,.9);
   for (const [s,base] of seeds){
     if (IDX.inv.has(s)) add(s,base);
     if (s.length>=3 && !/\d/.test(s)) for (const v of (IDX.skel.get(skeleton(s))||[])) add(v, base*.75);
     for (const v of IDX.vocab){
       if (v===s) continue;
+      if (s!==t && base!==.9) continue; // a word with its prefix letter removed must match exactly
       if (s.length>=2 && v.startsWith(s)) { add(v, base*(s.length>=3?.85:.6)); continue; }
       if (s.length>=5 && !/\d/.test(s)){
         const mx = s.length>=7?2:1, d = lev(s,v,mx);
@@ -256,7 +274,7 @@ function expandTerm(t){
   }
   return res;
 }
-const STOP = new Set(["על","של","את","עם","או","גם","כל","לא","אם","מה","זה","זו","יש","אין","איך","כמה","מי","מתי","איפה","לפי","בין","הוא","היא","הם","אני","אנחנו","צריכ","צריכה","מותר","אסור","האם","כי","רק","עד","אל","מנ","ע\"י","עי"]);
+const STOP = new Set(["על","של","את","עם","או","גם","כל","לא","אם","מה","זה","זו","יש","אין","איך","כמה","מי","מתי","איפה","לפי","בין","הוא","היא","הם","אני","אנחנו","צריכ","צריכה","מותר","אסור","האם","כי","רק","עד","אל","מנ","ע\"י","עי","כיצד","איך","למה","מתי","מה","צריכ","חייב","מחויב","מחוייב","לעשות","עושים","אפשר","ניתנ","גזרתו","בגזרתו","באזורו","שלו","שלה","עם","של","זה","יש","מי","משהו","קורה","עושימ","עושים","לגבי","בנושא","נושא"].map(norm));
 function search(q){
   let terms = [...new Set(words(q))].filter(t=>t.length>=2 || /\d/.test(t));
   const content = terms.filter(t=>!STOP.has(t));
@@ -271,17 +289,19 @@ function search(q){
       for (const [i,w] of IDX.inv.get(tok)){ const v=sc*w; if((best.get(i)||0)<v) best.set(i,v); }
     }
     if (/^\d+(\.\d+)*$/.test(t)) DATA.items.forEach((it,i)=>{ if(String(it.num)===t || String(it.num).startsWith(t+".")) best.set(i,Math.max(best.get(i)||0,4)); });
+    // rarer words count more: "מדשאה" matters more than "קבלן", which is everywhere
+    const idf = Math.log(1 + DATA.items.length / Math.max(1,best.size));
     for (const [i,v] of best){
-      scores.set(i,(scores.get(i)||0)+Math.min(v,3));
-      if (v>=.85) strong.set(i,(strong.get(i)||0)+1);
+      scores.set(i,(scores.get(i)||0)+Math.min(v,3)*idf);
+      if (v>=.85) strong.set(i,(strong.get(i)||0)+idf);
     }
   }
   let hits = [...scores.keys()].map(i=>{
     const n=strong.get(i)||0;
-    return {i, n, score: scores.get(i) + 2.5*n};
+    return {i, n, score: scores.get(i) + 2*n};
   }).sort((a,b)=> b.score-a.score);
   if (hits.length){ const top=hits[0].score; hits = hits.filter(h=>h.score>=top*0.3); }
-  const partial = terms.length>1 && !hits.some(h=>h.n===terms.length);
+  const partial = false;
   return {hits, partial, matched, terms};
 }
 function highlight(text, matched){
@@ -332,7 +352,7 @@ function rowHTML(it, matched, showCat){
   return `<button class="row" data-item="${esc(it.id)}">
     <span class="t">${matched? highlight(it.title,matched) : esc(it.title)}</span>
     <span class="meta">${meta.join("")}</span>
-    ${matched? `<span class="snip">${snippet(it.body,matched)}</span>`:""}
+    ${it.simple ? `<span class="snip">${matched? highlight(it.simple,matched) : esc(it.simple)}</span>` : (matched? `<span class="snip">${snippet(it.body,matched)}</span>`:"")}
   </button>`;
 }
 function renderCat(id){
@@ -356,7 +376,12 @@ function renderSearch(q){
     $("#view").innerHTML = `<div class="empty"><strong>לא נמצאו תוצאות ל"${esc(q)}".</strong>נסה מילה אחרת או קצרה יותר, או מספר סעיף כמו 5.1.4.</div>`;
     return;
   }
-  $("#view").innerHTML = [...byCat].map(([cat,its])=>`
+  const top = r.hits.slice(0,3).map(h=>DATA.items[h.i]).filter(it=>it.simple);
+  const quick = top.length ? `<section class="quick" aria-label="בקצרה">
+      <div class="quick-h">בקצרה, מה המפרט אומר על זה</div>
+      ${top.map(it=>`<button class="quick-row" data-item="${esc(it.id)}"><b>${esc(it.title)}</b><span>${highlight(it.simple,r.matched)}</span><small>${it.num? "סעיף "+esc(it.num)+" · ":""}לנוסח המלא</small></button>`).join("")}
+    </section>` : "";
+  $("#view").innerHTML = quick + [...byCat].map(([cat,its])=>`
     <div class="group-h">${esc(catById(cat).name)} <span class="chip">${its.length}</span></div>
     <div class="list">${its.map(it=>rowHTML(it,r.matched,false)).join("")}</div>`).join("");
 }
@@ -376,7 +401,9 @@ function openItem(id){
     <button class="close" id="closeSheet">סגירה</button>
     <h3 id="sheetTitle">${highlight(it.title,lastMatched)}</h3>
     <div class="meta"><span class="chip">${esc(c.name)}</span>${it.section?`<span>${esc(it.section)}</span>`:""}</div>
-    <div class="body">${bodyHTML(it.body,lastMatched)}</div>
+    ${it.simple? `<div class="simple"><div class="simple-h">בשפה פשוטה</div><p>${highlight(it.simple,lastMatched)}</p></div>
+    <details class="full"${it.simple?"":" open"}><summary>הנוסח המלא מהמפרט</summary><div class="body">${bodyHTML(it.body,lastMatched)}</div></details>`
+    : `<div class="body">${bodyHTML(it.body,lastMatched)}</div>`}
     <div class="source">מקור: מפרט שירותי גינון וטיפוח גני נוי ושטחים מגוננים${it.page? `, עמוד ${esc(it.page)}`:""}${it.num? `, סעיף ${esc(it.num)}`:""}.</div>`;
   $("#sheet").classList.remove("hidden"); $("#scrim").classList.remove("hidden");
   $("#closeSheet").focus();
@@ -415,9 +442,9 @@ document.addEventListener("click", e=>{ if (e.target.id==="closeSheet") closeIte
 function rowsToData(itemRows, catRows, synRows){
   const [ih, ...ir] = itemRows; const [ch, ...cr] = catRows||[[]];
   const col = (h,names)=>{ for(const n of names){ const k=h.indexOf(n); if(k>=0) return k;} return -1; };
-  const I = {id:col(ih,["מזהה"]),cat:col(ih,["קטגוריה"]),num:col(ih,["סעיף"]),title:col(ih,["כותרת"]),body:col(ih,["תוכן"]),page:col(ih,["עמוד"]),section:col(ih,["פרק"])};
+  const I = {id:col(ih,["מזהה"]),cat:col(ih,["קטגוריה"]),num:col(ih,["סעיף"]),title:col(ih,["כותרת"]),body:col(ih,["תוכן"]),page:col(ih,["עמוד"]),section:col(ih,["פרק"]),simple:col(ih,["תקציר בשפה פשוטה","תקציר"])};
   const C = {name:col(ch,["שם"]),desc:col(ch,["תיאור"])};
-  const items = ir.filter(r=>r[I.title]||r[I.body]).map((r,k)=>({id:r[I.id]||("r"+(k+2)),cat:(r[I.cat]||"").trim(),num:r[I.num]||"",title:r[I.title]||"",body:r[I.body]||"",page:r[I.page]||"",section:r[I.section]||""}));
+  const items = ir.filter(r=>r[I.title]||r[I.body]).map((r,k)=>({id:r[I.id]||("r"+(k+2)),cat:(r[I.cat]||"").trim(),num:r[I.num]||"",title:r[I.title]||"",body:r[I.body]||"",page:r[I.page]||"",section:r[I.section]||"",simple:(I.simple>=0? r[I.simple]:"")||""}));
   const cats = cr.filter(r=>r[C.name]).map(r=>({id:r[C.name].trim(),name:r[C.name].trim(),desc:r[C.desc]||""}));
   // category ids used in items but missing from the categories tab
   for (const it of items) if (it.cat && !cats.find(c=>c.id===it.cat)) cats.push({id:it.cat,name:it.cat,desc:""});
@@ -430,7 +457,7 @@ async function api(url){
   return r.json();
 }
 async function loadFromSheet(){
-  const ranges = ["פריטים!A:G","קטגוריות!A:B","מילים נרדפות!A:B"].map(r=>"ranges="+encodeURIComponent(r)).join("&");
+  const ranges = ["פריטים!A:H","קטגוריות!A:B","מילים נרדפות!A:B"].map(r=>"ranges="+encodeURIComponent(r)).join("&");
   const j = await api(`https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.SHEET_ID}/values:batchGet?${ranges}&valueRenderOption=FORMATTED_VALUE`);
   const v = j.valueRanges.map(x=>x.values||[]);
   return rowsToData(v[0],v[1],v[2]);
