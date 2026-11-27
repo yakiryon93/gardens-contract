@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>חוזה קבלני הגינון</title>
-<meta name="theme-color" content="#F5F5F7">
+<meta name="theme-color" content="#2C9A5E">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -13,46 +13,52 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F5F5F7; --card:#FFFFFF; --ink:#1D1D1F; --muted:#6E6E73; --line:#E5E5EA;
-  --green:#3DAA6B; --green-deep:#2E8C56; --green-tint:#EAF6EE; --green-soft:#D6EFDF;
+  --bg:#EAF5EE; --card:#FFFFFF; --ink:#1D1D1F; --muted:#6E6E73; --line:#E5E5EA;
+  --green:#3DAA6B; --green-deep:#2E8C56; --green-tint:#E3F4E9; --green-soft:#CBEBD6; --leaf-bg:#F4FBF6;
   --navy:#1B3A6B; --mark:#D3F0DC; --danger:#C0392B;
   --font:"Heebo", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --r:20px; --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+html,body{margin:0;background:linear-gradient(180deg,#E3F3E8 0%,#EEF8F1 45%,#F6FBF7 100%) fixed;color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 button,input{font:inherit;color:inherit}
 a{color:var(--green-deep)}
 :focus-visible{outline:3px solid var(--green-soft);outline-offset:2px;border-radius:10px}
 .hidden{display:none!important}
 
 /* top bar, frosted like macOS */
-.topbar{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.78);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
+.topbar{position:sticky;top:0;z-index:10;background:rgba(250,255,251,.82);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid rgba(0,0,0,.06)}
 .topbar-inner{max-width:1040px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .brand{display:flex;align-items:center;gap:12px;cursor:pointer;background:none;border:0;padding:0;text-align:right}
 .brand img{height:42px;width:auto}
 .brand .t1{display:block;font-weight:700;font-size:1rem;color:var(--navy);line-height:1.2}
 .brand .t2{display:block;font-size:.8rem;color:var(--muted);font-weight:500}
 .tools{display:flex;gap:8px;align-items:center}
-.pill{background:var(--bg);border:0;color:var(--ink);border-radius:999px;padding:7px 15px;font-size:.86rem;font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
-.pill:hover{background:#EBEBF0}
+.pill{background:var(--green-tint);border:0;color:var(--ink);border-radius:999px;padding:7px 15px;font-size:.86rem;font-weight:500;cursor:pointer;text-decoration:none;white-space:nowrap}
+.pill:hover{background:var(--green-soft)}
 .who{font-size:.8rem;color:var(--muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 /* hero */
-.hero{max-width:1040px;margin:0 auto;padding:48px 24px 8px;text-align:center}
+.hero{position:relative;z-index:0;text-align:center;padding:52px 24px 40px;margin:0 0 6px;color:#fff;
+  background:radial-gradient(120% 140% at 85% 0%,#6FCB8F 0%,rgba(111,203,143,0) 55%),linear-gradient(160deg,#2C9A5E 0%,#3FAE6E 55%,#5DBE80 100%);
+  border-radius:0 0 36px 36px;box-shadow:0 10px 30px rgba(46,140,86,.18);overflow:hidden}
+.hero > *{position:relative;max-width:1040px;margin-left:auto;margin-right:auto}
+.hero .deco{position:absolute;inset:0;max-width:none;pointer-events:none;opacity:.16}
 .hero h1{font-size:2.6rem;font-weight:800;letter-spacing:-.02em;margin:0 0 6px;line-height:1.15}
-.hero p{color:var(--muted);font-size:1.1rem;margin:0 0 26px}
+.hero p{color:rgba(255,255,255,.92);font-size:1.1rem;margin:0 0 26px}
 .searchbox{position:relative;max-width:760px;margin:0 auto}
-.searchbox input{width:100%;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);
+.searchbox input{width:100%;border:1px solid rgba(255,255,255,.6);border-radius:999px;background:var(--card);color:var(--ink);
   font-size:1.25rem;font-weight:400;padding:18px 58px 18px 56px;box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s}
-.searchbox input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px var(--green-tint), var(--shadow)}
+.searchbox input:focus{outline:none;border-color:#fff;box-shadow:0 0 0 5px rgba(255,255,255,.35), 0 10px 30px rgba(0,0,0,.12)}
 .searchbox input::placeholder{color:#A1A1A6}
 .searchbox input::-webkit-search-cancel-button{-webkit-appearance:none;display:none}
 .searchbox svg{position:absolute;right:22px;top:50%;transform:translateY(-50%);width:22px;height:22px;color:var(--green);pointer-events:none}
-.searchbox .clear{position:absolute;left:12px;top:50%;transform:translateY(-50%);border:0;background:var(--bg);border-radius:999px;width:34px;height:34px;cursor:pointer;color:var(--muted);font-size:1.2rem;line-height:1}
-.hint{margin-top:12px;font-size:.88rem;color:var(--muted);min-height:1.4em}
+.searchbox .clear{position:absolute;left:10px;top:50%;transform:translateY(-50%);border:0;background:#FFF1F3;border-radius:999px;width:46px;height:46px;cursor:pointer;padding:4px;display:grid;place-items:center;transition:transform .35s cubic-bezier(.2,.8,.2,1),background .2s}
+.searchbox .clear svg{position:static;transform:none;width:34px;height:34px;color:inherit}
+.searchbox .clear:hover{background:#FFE1E6;transform:translateY(-50%) rotate(-25deg) scale(1.08)}
+.hint{margin-top:12px;font-size:.9rem;color:rgba(255,255,255,.9);min-height:1.4em}
 
-main{max-width:1040px;margin:0 auto;padding:20px 24px 80px}
+main{position:relative;z-index:2;max-width:1040px;margin:0 auto;padding:20px 24px 80px}
 .crumbs{display:flex;align-items:center;gap:8px;margin:0 0 14px;font-size:.92rem;color:var(--muted)}
 .crumbs button{background:none;border:0;padding:0;color:var(--green-deep);cursor:pointer;font-weight:600}
 h2.page{font-size:2rem;font-weight:800;letter-spacing:-.015em;margin:0 0 2px;line-height:1.2}
@@ -60,9 +66,11 @@ h2.page{font-size:2rem;font-weight:800;letter-spacing:-.015em;margin:0 0 2px;lin
 
 /* category cards */
 .tags{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.tag{background:var(--card);border:0;border-radius:var(--r);box-shadow:var(--shadow);text-align:right;cursor:pointer;
+.tag{position:relative;background:var(--card);border:0;border-top:4px solid var(--green);border-radius:var(--r);box-shadow:var(--shadow);text-align:right;cursor:pointer;
   padding:22px 20px 18px;min-height:150px;display:flex;flex-direction:column;gap:4px;transition:transform .15s ease, box-shadow .15s ease}
-.tag:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(0,0,0,.05),0 14px 32px rgba(0,0,0,.09)}
+.tag:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(46,140,86,.08),0 14px 32px rgba(46,140,86,.16)}
+.tag::after{content:"";position:absolute;left:16px;top:18px;width:26px;height:26px;opacity:.85;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 21C3 10 10 3 21 3c0 11-7 18-18 18z' fill='%233DAA6B'/%3E%3Cpath d='M3 21L15 9' stroke='%23fff' stroke-width='1.4' stroke-linecap='round' opacity='.7'/%3E%3C/svg%3E")}
+.tag .name{padding-left:34px}
 .tag .dot{width:34px;height:34px;border-radius:10px;background:var(--green-tint);display:grid;place-items:center;margin-bottom:8px}
 .tag .dot i{width:12px;height:12px;border-radius:50%;background:var(--green)}
 .tag .name{font-size:1.12rem;font-weight:700;line-height:1.3}
@@ -74,7 +82,7 @@ h2.page{font-size:2rem;font-weight:800;letter-spacing:-.015em;margin:0 0 2px;lin
 .list{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
 .row{display:block;width:100%;text-align:right;background:none;border:0;border-bottom:1px solid var(--line);padding:16px 20px;cursor:pointer}
 .row:last-child{border-bottom:0}
-.row:hover{background:#FAFAFC}
+.row:hover{background:var(--leaf-bg)}
 .row .t{font-weight:700;font-size:1.02rem;display:block}
 .row .meta{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem;color:var(--muted);margin-top:2px}
 .row .snip{display:block;color:#3A3A3C;font-size:.96rem;margin-top:6px}
@@ -100,8 +108,8 @@ mark{background:var(--mark);color:inherit;border-radius:4px;padding:0 2px}
 .source{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
 
 /* gate */
-.gate{min-height:100vh;display:grid;place-items:center;padding:24px;background:var(--bg)}
-.gate-card{background:var(--card);max-width:420px;width:100%;border-radius:28px;padding:40px 32px;text-align:center;box-shadow:var(--shadow)}
+.gate{position:relative;z-index:2;min-height:100vh;display:grid;place-items:center;padding:24px;background:transparent}
+.gate-card{background:var(--card);border-top:6px solid var(--green);max-width:420px;width:100%;border-radius:28px;padding:40px 32px;text-align:center;box-shadow:var(--shadow)}
 .gate-card img{height:120px;width:auto}
 .gate-card h1{font-size:1.7rem;font-weight:800;margin:18px 0 6px}
 .gate-card p{color:var(--muted);margin:0 0 24px}
@@ -119,7 +127,7 @@ mark{background:var(--mark);color:inherit;border-radius:4px;padding:0 2px}
 .simple .txt li{margin:0 0 6px;font-size:1.05rem;line-height:1.6}
 details.full{border-top:1px solid var(--line);padding-top:14px}
 details.full summary{cursor:pointer;color:var(--green-deep);font-weight:600;margin-bottom:12px}
-.quick{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:4px 0 8px}
+.quick{background:var(--card);border-top:4px solid var(--green);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 22px;margin:4px 0 8px}
 .quick-h{font-weight:800;font-size:1.15rem;margin-bottom:4px}
 .quick-sub{color:var(--muted);font-size:.85rem;margin-bottom:6px}
 .quick-row{display:flex;flex-direction:column;gap:3px;width:100%;text-align:right;background:none;border:0;border-top:1px solid var(--line);padding:14px 2px;cursor:pointer}
@@ -131,8 +139,18 @@ details.full summary{cursor:pointer;color:var(--green-deep);font-weight:600;marg
 .quick-row .txt p{margin:0 0 4px}
 .quick-row small{color:var(--green-deep);font-size:.8rem;font-weight:500}
 
+/* falling leaves */
+#leaves{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.leaf{position:absolute;top:-60px;left:var(--x);animation:fall var(--d) linear var(--delay) infinite}
+.leaf i{display:block;width:var(--s);height:var(--s);animation:sway calc(var(--d) / 4) ease-in-out var(--delay) infinite alternate}
+.leaf svg{width:100%;height:100%;display:block;opacity:var(--o);transform:rotate(var(--r))}
+@keyframes fall{to{transform:translateY(calc(100vh + 120px))}}
+@keyframes sway{from{transform:translateX(-34px) rotate(-35deg)}to{transform:translateX(34px) rotate(40deg)}}
+@media (prefers-reduced-motion:reduce){#leaves{display:none}.searchbox .clear{transition:none}}
+.topbar{z-index:10}
+
 @media (max-width:640px){
-  .hero{padding:28px 16px 4px}
+  .hero{padding:30px 16px 28px;border-radius:0 0 26px 26px}
   .hero h1{font-size:1.8rem}
   .searchbox input{font-size:1.05rem;padding:15px 50px 15px 48px}
   main{padding:16px 16px 60px}
@@ -144,6 +162,7 @@ details.full summary{cursor:pointer;color:var(--green-deep);font-weight:600;marg
 </style>
 </head>
 <body>
+<div id="leaves" aria-hidden="true"></div>
 
 <div id="gate" class="gate hidden">
   <div class="gate-card">
@@ -171,12 +190,21 @@ details.full summary{cursor:pointer;color:var(--green-deep);font-weight:600;marg
     </div>
   </header>
   <section class="hero">
+    <svg class="deco" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="#fff"><path d="M40 260C40 150 120 70 230 70c0 110-80 190-190 190z"/><path d="M1080 40c70 0 120 50 120 120-70 0-120-50-120-120z"/><path d="M980 300c0-80 60-140 140-140 0 80-60 140-140 140z"/><path d="M560 330c0-50 40-90 90-90 0 50-40 90-90 90z" opacity=".6"/></g></svg>
     <h1>חוזה קבלני הגינון</h1>
     <p>כל המפרט הטכני, בשפה פשוטה. שאל כל שאלה.</p>
     <div class="searchbox">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.6-4.6"/></svg>
       <input id="q" type="search" autocomplete="off" placeholder="למשל: כל כמה זמן מכסחים דשא?" aria-label="חיפוש במאגר">
-      <button class="clear hidden" id="clearQ" aria-label="ניקוי חיפוש">×</button>
+      <button class="clear hidden" id="clearQ" aria-label="ניקוי חיפוש" title="ניקוי חיפוש"><svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 21.5c-3 4.6-8.6 5.2-11 3.2 3-2.6 7-3.6 11-3.2z" fill="#3DAA6B"/>
+        <path d="M16 21.5c3 4.6 8.6 5.2 11 3.2-3-2.6-7-3.6-11-3.2z" fill="#2E8C56"/>
+        <path d="M16 21v8" stroke="#2E8C56" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M7.2 11.5C6.6 17.6 10.4 22 16 22s9.4-4.4 8.8-10.5c-1.8 1.4-3.6 1.6-5 1.2.8-2.6-.2-5.6-3.8-7.6-3.6 2-4.6 5-3.8 7.6-1.4.4-3.2.2-5-1.2z" fill="#E5435B"/>
+        <path d="M16 5.1c-3 1.7-4.2 4.3-3.9 6.7 1.6 2.4 6.2 2.4 7.8 0 .3-2.4-.9-5-3.9-6.7z" fill="#F0677B"/>
+        <path d="M16 9.4c1.9 0 3 1.2 3 2.6 0 1.5-1.3 2.6-2.9 2.6-1.4 0-2.4-1-2.4-2.1 0-1 .8-1.8 1.8-1.8.9 0 1.5.6 1.5 1.3" fill="none" stroke="#A8182F" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M9.5 15.6c2.2 2.4 10.8 2.4 13 0" fill="none" stroke="#B8223A" stroke-width="1.1" stroke-linecap="round" opacity=".7"/>
+      </svg></button>
     </div>
     <div class="hint" id="hint"></div>
   </section>
@@ -187,6 +215,21 @@ details.full summary{cursor:pointer;color:var(--green-deep);font-weight:600;marg
 <aside id="sheet" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="sheetTitle"></aside>
 
 <script>
+/* falling leaves (decorative) */
+(function(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box = document.getElementById("leaves");
+  const colors = ["#3DAA6B","#5CC283","#2E8C56","#8BCF6E","#4DB97A","#B5D65F","#79C27F","#D9B44A"];
+  const n = innerWidth < 640 ? 9 : 16;
+  for (let i=0;i<n;i++){
+    const d = 14 + Math.random()*14, c = colors[i % colors.length];
+    const el = document.createElement("span"); el.className = "leaf";
+    el.style.cssText = `--x:${Math.random()*100}vw;--d:${d}s;--delay:${-Math.random()*d}s;--s:${14+Math.random()*16}px;--r:${Math.random()*360}deg;--o:${.45+Math.random()*.35}`;
+    el.innerHTML = `<i><svg viewBox="0 0 24 24"><path d="M3 21C3 10 10 3 21 3c0 11-7 18-18 18z" fill="${c}"/><path d="M3 21L15 9" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".55"/></svg></i>`;
+    box.appendChild(el);
+  }
+})();
+
 /* ===== הגדרות ===== */
 const CONFIG = {
   CLIENT_ID: "109853178915-cfo7mnegsb1sf8p0g1te42olj3ig107g.apps.googleusercontent.com",
